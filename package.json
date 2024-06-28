@@ -29,6 +29,7 @@
     "@auth/core": "latest",
     "@auth/drizzle-adapter": "latest",
     "@auth/sveltekit": "latest",
+    "@airbadge/sveltekit": "latest",
     "auth": "latest",
     "drizzle-orm": "latest",
     "next-auth": "latest"
