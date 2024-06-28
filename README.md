@@ -143,13 +143,47 @@ I updated the src/lib/schema.ts for Drizzle with SQLite for D1, with the additio
 
 #### src/auth.ts --> exported in hooks.server.ts with "@auth/sveltekit":
 ```typescript
-export const { handle, signIn, signOut } = SvelteKitAuth(async ( {platform} ) => { //for D1, accessing platform is required.
-  ...
-  });
+// This works as expected
+//for D1, accessing platform is required.
+import { SvelteKitAuth } from "@auth/sveltekit";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import GitHub from "@auth/sveltekit/providers/github";
+import { AUTH_GITHUB_ID, AUTH_GITHUB_SECRET, AUTH_SECRET } from '$env/static/private';
+
+import { drizzle } from 'drizzle-orm/d1';
+import { users, accounts, sessions, verificationTokens } from '$lib/schema';
+
+export function createClient(db: D1Database) {
+  return drizzle(db, { schema: { users, accounts, sessions, verificationTokens } });
+}
+
+export const { handle, signIn, signOut } = SvelteKitAuth(async ( {platform} ) => {
+  
+  const DB = platform?.env?.DB;
+  if (!DB) {
+      throw new Error('Invalid DB');
+  }
+  const db = createClient(DB);  
+
+  console.log("DB:", db)
+
+  const authOptions = {
+    adapter: DrizzleAdapter(db),
+    providers: [
+      GitHub({
+        clientId: AUTH_GITHUB_ID,
+        clientSecret: AUTH_GITHUB_SECRET
+      })
+    ],
+    secret: AUTH_SECRET,
+    trustHost: true
+  }
+  return authOptions
+})
 ```
 
 #### But when I change to "@airbadge/sveltekit":
-I get the following TS Error:
+I get the following TS Error and platform can't be accessed the same way as before:
 ```bash
 Binding element 'platform' implicitly has an 'any' type.ts(7031)
 ```
