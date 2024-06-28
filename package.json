@@ -1,0 +1,36 @@
+{
+  "name": "project-name",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "pnpm run build && wrangler pages dev",
+    "deploy": "pnpm run build && wrangler pages deploy"
+  },
+  "devDependencies": {
+  },
+  "type": "module",
+  "dependencies": {
+    "@cloudflare/workers-types": "latest",
+    "@sveltejs/adapter-auto": "latest",
+    "@sveltejs/adapter-cloudflare": "latest",
+    "@sveltejs/kit": "latest",
+    "@sveltejs/vite-plugin-svelte": "latest",
+    "drizzle-kit": "latest",
+    "svelte": "latest",
+    "svelte-check": "latest",
+    "sveltekit-superforms": "latest",
+    "tslib": "latest",
+    "typescript": "latest",
+    "vite": "latest",
+    "wrangler": "latest",
+    "zod": "latest",
+    "@auth/core": "latest",
+    "@auth/drizzle-adapter": "latest",
+    "@auth/sveltekit": "latest",
+    "auth": "latest",
+    "drizzle-orm": "latest",
+    "next-auth": "latest"
+  }
+}
